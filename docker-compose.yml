@@ -1,0 +1,16 @@
+version: "3"
+services:
+  go_build_binary:
+    build: .
+    env_file:
+      - env_file
+    volumes:
+      - .:/project
+    command:
+      - /bin/sh
+      - -c
+      - |
+          mkdir -p bin
+          cd /project
+          CGO_ENABLED=0 GOOS=linux go build -o ./bin/$$BINARY_FILE_NAME ./src/main.go
+          ./bin/./$$BINARY_FILE_NAME
