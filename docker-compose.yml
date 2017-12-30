@@ -10,7 +10,7 @@ services:
       - /bin/sh
       - -c
       - |
-          mkdir -p bin
           cd /project
+          mkdir -p bin
           CGO_ENABLED=0 GOOS=linux go build -o ./bin/$$BINARY_FILE_NAME ./src/main.go
           ./bin/./$$BINARY_FILE_NAME
