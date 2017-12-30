@@ -1,4 +1,4 @@
-# Slack notifier for aws lambda
+# Slack notifier for outdated versions of ecs agent on AWS.
 
 This is a projects that lets you check for outdated ecs agents in AWS with using lambda. Currently it only supports reporting to slack.
 
