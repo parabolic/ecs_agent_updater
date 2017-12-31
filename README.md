@@ -1,6 +1,6 @@
 # Slack notifier for outdated versions of ecs agent on AWS.
 
-This is a projects that lets you check for outdated ecs agents in AWS with using lambda. Currently it only supports reporting to slack.
+This is a projects that lets you check for outdated ecs agents in AWS with using lambda. Currently it only supports reporting to slack. I am using docker to build and run the binary with using alpine linux.
 
 ## TODO
 
@@ -29,7 +29,7 @@ In order to compile and run the go binary you only need to execute docker-compos
 ```
 docker-compose up --build
 ```
-Which will put the binary inside the ./bin folder.
+Which will put the binary inside the ./bin folder which can be run on linux systems and can be used as an artiact for deployment.
 
 Running the binary is as simple as doing:
 ```
@@ -43,7 +43,7 @@ TODO.
 ## Built With
 
 * [golang](https://golang.org/) - The programming language used.
-* [docker](https://www.docker.com/community-edition) - Container virtualisation technology.
+* [docker](https://www.docker.com/community-edition) - Docker CE.
 * [docker-compose](https://docs.docker.com/compose/) - Used to run the application.
 
 ## Contributing
