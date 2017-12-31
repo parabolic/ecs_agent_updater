@@ -1,0 +1,13 @@
+version: 2
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - docker build --rm=false -t parabolic/ecs_agent_version_checker .
+
+test:
+  override:
+    - docker run -v `pwd`:/project parabolic/ecs_agent_version_checker /bin/sh -c "cd /project && mkdir -p bin && CGO_ENABLED=0 GOOS=linux go build -o ./bin/ecs_agent_version_checker ./src/main.go"

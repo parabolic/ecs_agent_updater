@@ -1,5 +1,8 @@
 # Slack notifier for outdated versions of ecs agent on AWS.
 
+Build status for master:
+[![CircleCI](https://circleci.com/gh/parabolic/ecs_agent_version_checker/tree/master.svg?style=svg)](https://circleci.com/gh/parabolic/ecs_agent_version_checker/tree/master)
+
 This is a projects that lets you check for outdated ecs agents in AWS with using lambda. Currently it only supports reporting to slack. I am using docker to build and run the binary with using alpine linux.
 
 ## TODO
