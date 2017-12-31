@@ -1,8 +1,5 @@
 package main
 
-// TODO:
-// - set auto update of the agent
-// - introduce other methods of notification
 import (
 	"bytes"
 	"context"
