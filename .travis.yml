@@ -15,3 +15,7 @@ before_install:
   - sudo apt-get -y install docker-ce
   - docker build -t $DOCKER_IMAGE_TAG .
   - docker run -v `pwd`:/project $DOCKER_IMAGE_TAG /bin/sh -c "cd /project && mkdir -p bin && CGO_ENABLED=0 GOOS=linux go build -o ./bin/$BINARY_FILE_NAME ./src/main.go"
+
+script:
+  - ls -lat
+  - echo "Good to go"
