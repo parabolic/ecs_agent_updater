@@ -4,7 +4,6 @@ env:
   global:
     - BINARY_FILE_NAME=ecs_agent_version_checker
     - DOCKER_IMAGE_TAG=parabolic/ecs_agent_version_checker
-    - VERSION_TAG=0.0.1
 
 services:
   - docker
@@ -28,5 +27,5 @@ deploy:
   file_glob: "true"
   name: "$BINARY_FILE_NAME-$VERSION_TAG"
   on:
-    branch: master
+    branch: "master"
     tags: true
