@@ -1,6 +1,9 @@
-# Slack notifier for outdated versions of ecs agent on AWS.
+# Notifier for outdated versions of ecs agent on AWS.
 
-This is a projects that lets you check for outdated ecs agents in AWS with using lambda. Currently it only supports reporting to slack. I am using docker to build and run the binary with using alpine linux.
+[![Build Status](https://travis-ci.org/parabolic/ecs_agent_version_checker.svg?branch=add_travis_build)](https://travis-ci.org/parabolic/ecs_agent_version_checker)
+
+---
+This is a projects that lets you check for outdated ecs agents in AWS and is written in go which means that it can be deployed to aws lambda. Currently it only supports reporting to slack. I am using docker to build and run the binary with using alpine linux.
 
 ## TODO
 

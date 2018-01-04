@@ -3,6 +3,7 @@ sudo: required
 env:
   global:
     - BINARY_FILE_NAME=ecs_agent_version_checker
+    - DOCKER_IMAGE_TAG=parabolic/ecs_agent_version_checker
 
 services:
   - docker
@@ -12,5 +13,19 @@ before_install:
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
-  - docker build -t parabolic/ecs_agent_version_checker .
-  - docker run -d parabolic/ecs_agent_version_checker --mount source=.,destination=/project /bin/sh -c "cd /project && mkdir -p bin && CGO_ENABLED=0 GOOS=linux go build -o ./bin/$BINARY_FILE_NAME ./src/main.go && ./bin/./$BINARY_FILE_NAME"
+
+script:
+  - docker build -t $DOCKER_IMAGE_TAG .
+  - docker run -v `pwd`:/project $DOCKER_IMAGE_TAG /bin/sh -c "cd /project && mkdir -p bin && CGO_ENABLED=0 GOOS=linux go build -o ./bin/$BINARY_FILE_NAME ./src/main.go"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "Nf0M86Jb6c0N6fAAzXyBZozV1a1drIWVZjY72QkfUbqDPkn5mmIjCkYV6GxkWqdrzZGttMeRhCef4m+7qSLnpbRFFnoR8yV5aKwDsrqZSnZyQ04rBBGxsivHTkroAVxTOHvSB8H8+GhXbF/QB+idUh3K63B03zDohIyTV64+b223QwF166j5uPprhXjvpYXFaaSOtVZTv6jHjROJ90pG94wJ5vHk66f3jvcB1drscZcguhgV6uQ4Zo+Hfn+Qv8cJdRL0fIVlruJdmXTfyOjI5M4XN05V7ahbKKw9l3S92DN+104hQmbuYnAlPgEMhgI77qf5fVyp80WkZCWFKzKlvFNEY1UiFPIh23AFsWCasAZWX0pCX3/t6eJvsvYAhhGP1bJ2xcEmUDdVhkzFSAEhp2mXiSBvEH9mIP+MhiyB8LC8RaJHpmpWDs0yFKobI3P8wsm99rRENs9KdwpyujgKmghTSUY9ZFmRrQqufHiNsmhdWgG738C/Ly7ARBl9hQ7im8lwqXxlk4qf+ZrjW8OC22/wLXA5NFMK5K1QJsn8Kg6BSjAA08nuYx3lZ026ErfkP1otHhBmOEWHwqi9R9HIx/KfNIl7jM9MhZXx481Exa6ltLH49NPN3Wbyvy2ygQHIfQkxxVhlCGw0N9gJ3X8OPC2/hmgbji4pEDPUXnsIkKo="
+  file: "./bin/$BINARY_FILE_NAME"
+  skip_cleanup: true
+  file_glob: "true"
+  name: "$BINARY_FILE_NAME-$VERSION_TAG"
+  on:
+    branch: "master"
+    tags: true
