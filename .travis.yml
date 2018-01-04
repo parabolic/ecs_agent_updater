@@ -25,7 +25,7 @@ deploy:
   file: "./bin/$BINARY_FILE_NAME"
   skip_cleanup: true
   file_glob: "true"
-  name: "$BINARY_FILE_NAME-$VERSION_TAG"
+  name: "$BINARY_FILE_NAME-$TRAVIS_TAG"
   on:
     branch: "master"
     tags: true
