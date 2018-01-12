@@ -20,30 +20,47 @@ func main() {
 	clusters := list_clusters(sess)
 	latest_ecs_version := get_latest_ecs_version()
 
-	http_response := execute(clusters, sess, latest_ecs_version)
+	cluster_instances := outdated_agents_on_instance(clusters, sess, latest_ecs_version)
+	http_response := execute(cluster_instances)
 	fmt.Println(http_response)
 }
 
-func execute(clusters []*string, sess *session.Session, latest_ecs_version string) []string {
-
-	var slack_http_statuses []string
+func execute(cluster_instances map[string][]string) []string {
 	var message_body string
+	var slack_http_statuses []string
+	for key, value := range cluster_instances {
+		string_message := fmt.Sprintf("*Cluster:* %s\nhas *%d* instance(s) with outdated ecs agent.", key, len(value))
+		message_body = send_to_slack(string_message)
+		slack_http_statuses = append(slack_http_statuses, message_body)
+
+	}
+	return slack_http_statuses
+}
+
+func outdated_agents_on_instance(clusters []*string, sess *session.Session, latest_ecs_version string) map[string][]string {
+
+	var instances_with_outdated_ecs []string
+	var map_cluster_instances map[string][]string
+	// Initialize the map
+	map_cluster_instances = make(map[string][]string)
 
 	// List the clusters and their instances.
 	for _, cluster := range clusters {
+		// Re-initialize the slice so that it only contains the instances from the current cluster that we are iterating on.
+		instances_with_outdated_ecs = make([]string, 0)
+
 		cluster_instances := describe_clusters(*cluster, sess)
 		for _, instance := range cluster_instances {
 			ecs_agent_version_in_instance := get_ecs_agent_on_instance(*instance, sess, *cluster)
-			// If the ecs agent versions differ notify.
+			// If the ecs agent versions differ add them to the map.
 			if latest_ecs_version != ecs_agent_version_in_instance {
 
-				string_message := fmt.Sprintf("*Cluster:* %s \n*Instance*\n %s\n *Has outdated ecs version.*\n %s\n *The latest ecs version is: %s*\n", *cluster, *instance, ecs_agent_version_in_instance, latest_ecs_version)
-				message_body = send_to_slack(string_message)
-				slack_http_statuses = append(slack_http_statuses, message_body)
+				instances_with_outdated_ecs = append(instances_with_outdated_ecs, *instance)
+				map_cluster_instances[*cluster] = instances_with_outdated_ecs
 			}
 		}
 	}
-	return slack_http_statuses
+	return map_cluster_instances
 }
 
 func send_to_slack(message string) string {
