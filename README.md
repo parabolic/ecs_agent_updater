@@ -20,7 +20,17 @@ In order to run this project you will only need to have docker and docker-compos
 
 ### Installing
 
-Before compiling and running the source code you need to set the environment variables that will enable the code to have access to the ecs clusters.
+Before compiling and running the source code you need to set the environment variables that will enable the code to have access to the ecs clusters. Here are all env variables that need to be set in the run environment (in this case docker compose):
+
+```sh
+BINARY_FILE_NAME=ecs_agent_version_checker
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+SLACK_WEBHOOK_ENDPOINT=
+```
+
+The aws key, secret and region can be ommited if the run environment is aws and the roles are set accordingly.
 The example file `env_file.example` needs to be copied and the variables filled in with their respective values. After putting the variables inside, copy the file so that it has the name env_file:
 
 ```
