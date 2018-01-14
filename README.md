@@ -24,13 +24,14 @@ Before compiling and running the source code you need to set the environment var
 
 ```sh
 BINARY_FILE_NAME=ecs_agent_version_checker
+UPDATE_ECS_AGENT=
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 AWS_REGION=
 SLACK_WEBHOOK_ENDPOINT=
 ```
 
-The aws key, secret and region can be ommited if the run environment is aws and the roles are set accordingly.
+The aws key, secret and region can be ommited if the run environment is aws and the roles are set accordingly. The env variable UPDATE_ECS_AGENT should be set to `true` if you would like to update the ecs agents. You can find more about that here https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerAgent.html.
 The example file `env_file.example` needs to be copied and the variables filled in with their respective values. After putting the variables inside, copy the file so that it has the name env_file:
 
 ```
