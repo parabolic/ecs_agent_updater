@@ -21,20 +21,48 @@ func main() {
 	latest_ecs_version := get_latest_ecs_version()
 
 	cluster_instances := outdated_agents_on_instance(clusters, sess, latest_ecs_version)
-	http_response := execute(cluster_instances)
+	http_response := execute(cluster_instances, sess)
 	fmt.Println(http_response)
 }
 
-func execute(cluster_instances map[string][]string) []string {
+func execute(cluster_instances map[string][]string, s *session.Session) []string {
 	var message_body string
 	var slack_http_statuses []string
 	for key, value := range cluster_instances {
+
 		string_message := fmt.Sprintf("*Cluster:* %s\nhas *%d* instance(s) with outdated ecs agent.", key, len(value))
 		message_body = send_to_slack(string_message)
 		slack_http_statuses = append(slack_http_statuses, message_body)
 
+		if os.Getenv("UPDATE_ECS_AGENT") == "true" {
+
+			fmt.Println("Updating ecs agents on all instances for cluster:", key)
+			instance_id := update_ecs_agent(s, key, value)
+			fmt.Println("Updated instance", instance_id)
+		}
 	}
 	return slack_http_statuses
+}
+
+func update_ecs_agent(s *session.Session, cluster string, container_instances []string) string {
+	var return_value string
+	svc := ecs.New(s)
+	for _, instance := range container_instances {
+
+		input := &ecs.UpdateContainerAgentInput{
+			Cluster:           aws.String(cluster),
+			ContainerInstance: aws.String(instance),
+		}
+		result, err := svc.UpdateContainerAgent(input)
+
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+
+		return_value = *result.ContainerInstance.Ec2InstanceId
+
+	}
+	return return_value
 }
 
 func outdated_agents_on_instance(clusters []*string, sess *session.Session, latest_ecs_version string) map[string][]string {
