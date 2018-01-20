@@ -37,8 +37,8 @@ func execute(cluster_instances map[string][]string, s *session.Session) []string
 		if os.Getenv("UPDATE_ECS_AGENT") == "true" {
 
 			fmt.Println("Updating ecs agents on all instances for cluster:", key)
-			instance_id := update_ecs_agent(s, key, value)
-			fmt.Println("Updated instance", instance_id)
+			agent_update_response := update_ecs_agent(s, key, value)
+			fmt.Println(agent_update_response)
 		}
 	}
 	return slack_http_statuses
@@ -56,10 +56,10 @@ func update_ecs_agent(s *session.Session, cluster string, container_instances []
 		result, err := svc.UpdateContainerAgent(input)
 
 		if err != nil {
-			fmt.Println(err.Error())
+			return_value = fmt.Sprintf("Instance couldn't not be updated, the error is %s", err.Error())
+		} else {
+			return_value = fmt.Sprintf("Instance %s successfully updated", *result.ContainerInstance.Ec2InstanceId)
 		}
-
-		return_value = *result.ContainerInstance.Ec2InstanceId
 
 	}
 	return return_value
