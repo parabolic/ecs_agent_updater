@@ -7,7 +7,6 @@ This is a projects that lets you check for outdated ecs agents in AWS and is wri
 
 ## TODO
 
-- Set auto update of the agent.
 - Introduce other methods of notification.
 
 ## Getting Started
@@ -43,7 +42,7 @@ In order to compile and run the go binary you only need to execute docker-compos
 ```
 docker-compose up --build
 ```
-Which will put the binary inside the ./bin folder which can be run on linux systems and can be used as an artiact for deployment.
+Which will put the binary inside the ./bin folder which can be run on linux systems and can be used as an artifact for deployment.
 
 Running the binary is as simple as doing:
 ```
