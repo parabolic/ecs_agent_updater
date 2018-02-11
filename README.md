@@ -1,4 +1,4 @@
-# Notifier for outdated versions of ecs agent on AWS.
+# Updater for outdated ecs agent on AWS.
 
 [![Build Status](https://travis-ci.org/parabolic/ecs_agent_version_checker.svg?branch=master)](https://travis-ci.org/parabolic/ecs_agent_version_checker)
 
@@ -51,13 +51,14 @@ Running the binary is as simple as doing:
 
 ## Deployment
 
-TODO.
+`terraform workspace new dev`
 
 ## Built With
 
 * [golang](https://golang.org/) - The programming language used.
 * [docker](https://www.docker.com/community-edition) - Docker CE.
 * [docker-compose](https://docs.docker.com/compose/) - Used to run the application.
+* [terraform](terraform.io) - Used for deploying the binary.
 
 ## Contributing
 
