@@ -1,4 +1,4 @@
-BINARY_FILE_NAME=ecs_agent_version_checker
+BINARY_FILE_NAME=
 # Set this to true if you want all of the ecs agents to be updated.
 UPDATE_ECS_AGENT=
 AWS_ACCESS_KEY_ID=
