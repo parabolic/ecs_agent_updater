@@ -1,7 +1,1 @@
-BINARY_FILE_NAME=ecs_agent_version_checker
-# Set this to true if you want all of the ecs agents to be updated.
-UPDATE_ECS_AGENT=
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_REGION=
-SLACK_WEBHOOK_ENDPOINT=
+BINARY_FILE_NAME=

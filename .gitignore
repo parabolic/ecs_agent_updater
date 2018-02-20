@@ -1,2 +1,6 @@
 env_file
 bin/*
+.terraform/
+*.tfstate.d/
+*.tfvars
+secrets/
