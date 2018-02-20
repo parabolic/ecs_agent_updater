@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ecs"
@@ -15,17 +16,20 @@ import (
 )
 
 func main() {
+	lambda.Start(execute)
+}
+
+func execute() (string, error) {
 	// Define the session so it can be reused.
 	sess := session.Must(session.NewSession())
 	clusters := list_clusters(sess)
 	latest_ecs_version := get_latest_ecs_version()
-
 	cluster_instances := outdated_agents_on_instance(clusters, sess, latest_ecs_version)
-	http_response := execute(cluster_instances, sess)
+	http_response := update_report_instances(cluster_instances, sess)
 	fmt.Println(http_response)
+	return "OK", nil
 }
-
-func execute(cluster_instances map[string][]string, s *session.Session) []string {
+func update_report_instances(cluster_instances map[string][]string, s *session.Session) []string {
 	var message_body string
 	var slack_http_statuses []string
 	for key, value := range cluster_instances {
