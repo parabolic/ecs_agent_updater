@@ -5,7 +5,6 @@ set -e
 
 WORKSPACE=${1}
 WORKING_DIRECTORY="terraform"
-SECRETS_FILE="secrets/${WORKSPACE}.tfvars"
 shift 1
 
 cd ${WORKING_DIRECTORY}
