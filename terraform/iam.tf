@@ -15,6 +15,20 @@ resource "aws_iam_role_policy" "lambda_kms_policy" {
       "Resource": [
         "${aws_kms_key.kms_for_lambda.arn}"
       ]
+    },
+    {
+      "Sid": "AllowECSFromLamda",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:ListClusters",
+        "ecs:UpdateContainerAgent",
+        "ecs:DescribeClusters",
+        "ecs:DescribeContainerInstances",
+        "ecs:ListContainerInstances"
+      ],
+      "Resource": [
+        "*"
+      ]
     }
   ]
 }
