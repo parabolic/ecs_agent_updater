@@ -3,7 +3,7 @@ When using AWS ECS, the ecs agent on the instances is bound to get outdated at s
 
 ---
 
-[![Build Status](https://travis-ci.org/parabolic/ecs_agent_version_checker.svg?branch=master)](https://travis-ci.org/parabolic/ecs_agent_version_checker)
+[![Build Status](https://travis-ci.org/parabolic/ecs_agent_updater.svg?branch=master)](https://travis-ci.org/parabolic/ecs_agent_updater)
 
 <div align="center">
   <a href="https://golang.org/">
