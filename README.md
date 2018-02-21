@@ -20,9 +20,13 @@ Having outdated ecs agents!
 
 In order to run this project you will need to have docker, docker-compose and terraform installed. Make sure you have the latest versions on your machine (the docker-compose config file is using version 3).
 All the applications can be installed from here:
+
 https://www.docker.com/community-edition#/download
+
 https://docs.docker.com/compose/install/
+
 https://www.terraform.io/downloads.html
+
 In order to deploy to aws make sure your AWS API credentials are configured properly and the terraform binary is in $PATH.
 You can find out more about updating the ecs agent here https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerAgent.html.
 
