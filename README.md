@@ -5,7 +5,14 @@ When using AWS ECS, the ecs agent on the instances is bound to get outdated at s
 
 [![Build Status](https://travis-ci.org/parabolic/ecs_agent_version_checker.svg?branch=master)](https://travis-ci.org/parabolic/ecs_agent_version_checker)
 
-
+<div align="center">
+  <a href="https://golang.org/">
+    <img src="https://raw.githubusercontent.com/parabolic/media/master/ecs_agent_updater/gopher_lambdaman.png"
+      alt="lambdaman"
+      width="400"
+      height="400" />
+  </a>
+</div>
 
 
 
