@@ -1,5 +1,4 @@
 ### Serverless, scheduled ecs agent updater.
-
 When using AWS ECS, the ecs agent on the instances is bound to get outdated at some point. Updating it can be automated and this is one implementation for that. Serverless, using golang, lambda and cloudwatch events that trigger it on a cron like schedule. The code, scans all the ecs clusters and it's instances and updates the ecs agents. If the agent is running on a OS that is not Amazon ECS-Optimized Linux, the update operation will fail and the error will be handled and reported to stdout.
 
 ---
@@ -11,11 +10,9 @@ When using AWS ECS, the ecs agent on the instances is bound to get outdated at s
 
 
 #### Getting Started
-
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy it to AWS.
 
 #### Prerequisites
-
 Having outdated ecs agents!
 
 In order to run this project you will need to have docker, docker-compose and terraform installed. Make sure you have the latest versions on your machine (the docker-compose config file is using version 3).
@@ -30,8 +27,8 @@ https://www.terraform.io/downloads.html
 In order to deploy to aws make sure your AWS API credentials are configured properly and the terraform binary is in $PATH.
 You can find out more about updating the ecs agent here https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerAgent.html.
 
-#### Installing
 
+#### Installing
 The env variables that need to be set in the build environment (in this case docker compose) are:
 
 ```sh
@@ -53,8 +50,8 @@ docker-compose up --build
 
 Which will put the binary and the zipped binary inside the ./bin folder which will be used as an artifact for deployment to AWS lambda.
 
-#### Deployment
 
+#### Deployment
 Deployment is done using terraform. I will be using the dev terraform workspace for this example.
 Before deploying, the lambda secrets and other variables need to be set so that terraform can run successfully.
 
@@ -86,32 +83,30 @@ terraform destroy
 ```
 
 #### Built With
-
 * [golang](https://golang.org/) - The programming language used.
 * [docker](https://www.docker.com/community-edition) - Docker CE.
 * [docker-compose](https://docs.docker.com/compose/) - Used to run the application.
 * [terraform](terraform.io) - Used for deploying the binary.
 
-#### Contributing
 
+#### Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-#### Versioning
 
+#### Versioning
 I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/ecs_agent_version_checker/project/tags).
 
-#### Authors
 
+#### Authors
 * **Nikola Velkovski** - *Initial work* - [parabolic](https://github.com/parabolic)
 
-#### License
 
+#### License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
 
 #### Acknowledgments
 
+
 #### TODO
-
 Introduce other methods of notification.
-
-
