@@ -1,0 +1,29 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1443036478000",
+      "Effect": "Allow",
+      "Action": [
+        "kms:decrypt"
+      ],
+      "Resource": [
+        "${kms_for_lambda_arn}"
+      ]
+    },
+    {
+      "Sid": "AllowECSFromLamda",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:ListClusters",
+        "ecs:UpdateContainerAgent",
+        "ecs:DescribeClusters",
+        "ecs:DescribeContainerInstances",
+        "ecs:ListContainerInstances"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}

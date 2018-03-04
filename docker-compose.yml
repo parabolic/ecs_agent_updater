@@ -16,4 +16,3 @@ services:
           rm -f ./bin/$$BINARY_FILE_NAME.zip
           CGO_ENABLED=0 GOOS=linux go build -o ./bin/$$BINARY_FILE_NAME ./src/main.go
           zip -j ./bin/$$BINARY_FILE_NAME.zip ./bin/$$BINARY_FILE_NAME
-

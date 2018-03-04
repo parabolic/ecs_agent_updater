@@ -2,8 +2,8 @@ sudo: required
 
 env:
   global:
-    - BINARY_FILE_NAME=ecs_agent_version_checker
-    - DOCKER_IMAGE_TAG=parabolic/ecs_agent_version_checker
+    - BINARY_FILE_NAME=ecs_agent_updater
+    - DOCKER_IMAGE_TAG=parabolic/ecs_agent_updater
 
 services:
   - docker
