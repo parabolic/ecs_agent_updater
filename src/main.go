@@ -30,22 +30,22 @@ func execute() (string, error) {
 	return "OK", nil
 }
 func update_report_instances(cluster_instances map[string][]string, s *session.Session) []string {
-	var message_body string
-	var slack_http_statuses []string
+	var notifier_message string
+	var notifier_messages []string
 	for key, value := range cluster_instances {
 
 		string_message := fmt.Sprintf("*Cluster:* %s\nhas *%d* instance(s) with outdated ecs agent.", key, len(value))
-		message_body = send_to_slack(string_message)
-		slack_http_statuses = append(slack_http_statuses, message_body)
+
+		notifier_message = notifier(string_message)
+		notifier_messages = append(notifier_messages, notifier_message)
 
 		if os.Getenv("UPDATE_ECS_AGENT") == "true" {
-
 			fmt.Println("Updating ecs agents on all instances for cluster:", key)
 			agent_update_response := update_ecs_agent(s, key, value)
 			fmt.Println(agent_update_response)
 		}
 	}
-	return slack_http_statuses
+	return notifier_messages
 }
 
 func update_ecs_agent(s *session.Session, cluster string, container_instances []string) string {
@@ -95,7 +95,16 @@ func outdated_agents_on_instance(clusters []*string, sess *session.Session, late
 	return map_cluster_instances
 }
 
-func send_to_slack(message string) string {
+func notifier(message string) string {
+	var notification_status string
+	fmt.Println(message)
+	if len(os.Getenv("SLACK_WEBHOOK_ENDPOINT")) > 0 {
+		notification_status = send_to_slack(message, os.Getenv("SLACK_WEBHOOK_ENDPOINT"))
+	}
+	return notification_status
+}
+
+func send_to_slack(message string, webhook_endpoint string) string {
 
 	type SlackMessageSimple struct {
 		Text   string `json:"text"`
