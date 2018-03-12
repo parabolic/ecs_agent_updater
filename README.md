@@ -58,7 +58,7 @@ Which will put the binary and the zipped version inside the ./bin folder and wil
 
 #### Deployment
 Deployment is done using terraform. I will be using the dev terraform workspace for this example.
-Before deploying, the lambda secrets and other variables need to be set so that terraform can run successfully.
+Before deploying, terraform secrets and other variables need to be set so that terraform can run successfully. Please note that the slack variable is optional whereas the update_ecs_agent is not.
 
 ```
 export TF_VAR_slack_webhook_endpoint=slack_secret

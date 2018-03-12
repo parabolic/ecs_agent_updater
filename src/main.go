@@ -15,10 +15,6 @@ import (
 	"strings"
 )
 
-func main() {
-	lambda.Start(execute)
-}
-
 func execute() (string, error) {
 	// Define the session so it can be reused.
 	sess := session.Must(session.NewSession())
@@ -29,13 +25,13 @@ func execute() (string, error) {
 	fmt.Println(http_response)
 	return "OK", nil
 }
+
 func update_report_instances(cluster_instances map[string][]string, s *session.Session) []string {
 	var notifier_message string
 	var notifier_messages []string
 	for key, value := range cluster_instances {
 
 		string_message := fmt.Sprintf("*Cluster:* %s\nhas *%d* instance(s) with outdated ecs agent.", key, len(value))
-
 		notifier_message = notifier(string_message)
 		notifier_messages = append(notifier_messages, notifier_message)
 
@@ -70,7 +66,6 @@ func update_ecs_agent(s *session.Session, cluster string, container_instances []
 }
 
 func outdated_agents_on_instance(clusters []*string, sess *session.Session, latest_ecs_version string) map[string][]string {
-
 	var instances_with_outdated_ecs []string
 	var map_cluster_instances map[string][]string
 	// Initialize the map
@@ -105,27 +100,22 @@ func notifier(message string) string {
 }
 
 func send_to_slack(message string, webhook_endpoint string) string {
-
 	type SlackMessageSimple struct {
 		Text   string `json:"text"`
 		Mrkdwn bool   `json:"mrkdwn"`
 	}
-
 	m := SlackMessageSimple{message, true}
 	b, marshal_err := json.Marshal(m)
-
 	response, err := http.Post(os.Getenv("SLACK_WEBHOOK_ENDPOINT"), "Content-type: application/json", bytes.NewBuffer(b))
 
 	if err != nil || marshal_err != nil {
 		fmt.Println(err.Error())
 	}
 	defer response.Body.Close()
-
 	return response.Status
 }
 
 func get_latest_ecs_version() string {
-
 	ctx := context.Background()
 	git_client := github.NewClient(nil)
 	latest_release, _, err := git_client.Repositories.GetLatestRelease(ctx, "aws", "amazon-ecs-agent")
@@ -137,9 +127,7 @@ func get_latest_ecs_version() string {
 }
 
 func get_ecs_agent_on_instance(instance_arn string, s *session.Session, cluster_name string) string {
-
 	var agent_version_in_instance string
-
 	svc := ecs.New(s)
 	input := &ecs.DescribeContainerInstancesInput{
 		Cluster: aws.String(cluster_name),
@@ -156,7 +144,6 @@ func get_ecs_agent_on_instance(instance_arn string, s *session.Session, cluster_
 	for _, instance := range result.ContainerInstances {
 		agent_version_in_instance = *instance.VersionInfo.AgentVersion
 	}
-
 	return agent_version_in_instance
 }
 
@@ -170,6 +157,7 @@ func list_clusters(s *session.Session) []*string {
 	}
 	return result.ClusterArns
 }
+
 func describe_clusters(cluster_name string, s *session.Session) []*string {
 	svc := ecs.New(s)
 	input := &ecs.ListContainerInstancesInput{
@@ -180,4 +168,8 @@ func describe_clusters(cluster_name string, s *session.Session) []*string {
 		fmt.Println(err.Error())
 	}
 	return result.ContainerInstanceArns
+}
+
+func main() {
+	lambda.Start(execute)
 }

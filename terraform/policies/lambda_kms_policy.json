@@ -12,6 +12,18 @@
       ]
     },
     {
+      "Sid": "AllowLambdaCWLogs",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+	"logs:CreateLogStream",
+	"logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:*:*:*"
+      ]
+    },
+    {
       "Sid": "AllowECSFromLamda",
       "Effect": "Allow",
       "Action": [
